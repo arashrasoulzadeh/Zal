@@ -27,6 +27,6 @@ abstract class ZalBase
 
     public function method()
     {
-        return strtolower($this->getRequest()->getMethod());
+        return $this->getRequest()->getMethod();
     }
 }

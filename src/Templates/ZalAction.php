@@ -12,17 +12,16 @@ abstract class ZalAction extends ZalBase implements ZalActionInterface
 
     public function render()
     {
-        //TODO : use base class method helpers
-        if ($this->method() != strtolower($this->method())) {
+        if ($this->method() != $this->method()) {
             abort(405);
         }
         if ($this->private) {
-            if (! $this->user()) {
+            if (!$this->user()) {
                 return response([], 401);
             }
         }
         $data = $this->getRequest()->all();
-        if (! is_null($this->id())) {
+        if (!is_null($this->id())) {
             $data['id'] = $this->id();
         }
         Validator::validate($data, $this->validation());
@@ -36,14 +35,13 @@ abstract class ZalAction extends ZalBase implements ZalActionInterface
         return $this->actionProxy();
     }
 
-    final protected function actionProxy()
+    protected final function actionProxy()
     {
         /** @var Response $res */
         $res = $this->action();
         $res->header('Access-Control-Max-Age', $this->cacheTimeout());
         $res->headers->set('Cache-Control', 'max-age');
         $res->header('X-Routed-By', 'Zal');
-
         return $res;
     }
 
@@ -60,11 +58,10 @@ abstract class ZalAction extends ZalBase implements ZalActionInterface
     public function param($key, $default = null)
     {
         if ($key == 'id') {
-            if (! is_null($this->id())) {
+            if (!is_null($this->id())) {
                 return $this->id();
             }
         }
-
         return $this->getRequest()->$key ?? $default;
     }
 
