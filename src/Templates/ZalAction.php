@@ -11,7 +11,7 @@ abstract class ZalAction extends ZalBase implements ZalActionInterface
 
     public function render()
     {
-        if ($this->method() != $this->method()) {
+        if ($this->getRequest() != $this->method()) {
             abort(405);
         }
         if ($this->private) {
