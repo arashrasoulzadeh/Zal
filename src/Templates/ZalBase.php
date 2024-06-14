@@ -62,14 +62,20 @@ abstract class ZalBase
         return $this->getRequest()->$key ?? $default;
     }
 
+    public function getUserId()
+    {
+        return $this->user()->tokenable->id;
+    }
+
     public function user()
     {
-        $request = $this->getRequest();
+        $request = Request::capture();
         $token = $request->bearerToken();
-        if ($token && $user = PersonalAccessToken::findToken($token)) {
-            return $user;
-        }
-
-        return null;
+        return Cache::remember("token_" . md5($token), 60, function () use ($token) {
+            if ($token && $user = PersonalAccessToken::findToken($token)) {
+                return $user;
+            }
+            return null;
+        });
     }
 }
