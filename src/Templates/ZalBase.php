@@ -69,7 +69,7 @@ abstract class ZalBase
         $token = $request->bearerToken();
         return Cache::remember("token_id_" . md5($token),60,function(){
             return $this->user()->tokenable->id;
-        })
+        });
     }
 
     public function user()
