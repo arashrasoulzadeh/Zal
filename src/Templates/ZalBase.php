@@ -2,6 +2,7 @@
 
 namespace arashrasoulzadeh\Zal\Templates;
 
+use Cache;
 use Illuminate\Http\Request;
 use Laravel\Sanctum\PersonalAccessToken;
 
