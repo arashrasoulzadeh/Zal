@@ -65,7 +65,11 @@ abstract class ZalBase
 
     public function getUserId()
     {
-        return $this->user()->tokenable->id;
+        $request = Request::capture();
+        $token = $request->bearerToken();
+        return Cache::remember("token_id_" . md5($token),60,function(){
+            return $this->user()->tokenable->id;
+        })
     }
 
     public function user()
